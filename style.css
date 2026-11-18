@@ -34,15 +34,24 @@ a {
 .site-header {
   position: sticky;
   top: 0;
-  z-index: 10;
-  min-height: 68px;
-  padding: 0 4.5%;
+  z-index: 1000;
+
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  background: var(--dark);
-  color: #fff9f6;
-  box-shadow: 0 3px 14px #65425918;
+  align-items: center;
+
+  padding: 16px 5%;
+  background: transparent;
+  border-bottom: 1px solid transparent;
+
+  margin-bottom: -90px;
+
+animation-name: navbar-scroll;
+animation-duration: 1s;
+animation-timing-function: linear;
+animation-fill-mode: both;
+animation-timeline: scroll(root);
+animation-range: 0px 120px;
 }
 
 .logo {
@@ -75,16 +84,23 @@ a {
 }
 
 .hero {
-  min-height: calc(100vh - 68px);
-  padding: 70px 20px 55px;
+  min-height: 100vh;
+  padding: 120px 20px 80px;
   position: relative;
   overflow: hidden;
+
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
-  background: radial-gradient(ellipse at 50% 48%, #eabac9 0%, #f2d5d4 48%, #faeeeb 100%);
+
+  background: radial-gradient(
+    ellipse at 50% 48%,
+    #eabac9 0%,
+    #f2d5d4 48%,
+    #faeeeb 100%
+  );
 }
 
 .kicker,
@@ -96,8 +112,8 @@ a {
 }
 
 .hero h1 {
-  margin: 18px 0;
-  font: 600 clamp(3.2rem, 8vw, 7rem)/1.08 var(--serif);
+  margin: 28px 0;
+  font: 600 clamp(3.2rem, 8vw, 7rem)/1.2 var(--serif);
   letter-spacing: -.055em;
   color: #493542;
 }
@@ -110,9 +126,20 @@ a {
 
 .hero-subtitle {
   max-width: 510px;
+  margin-top: 12px;
   color: #6d5863;
   line-height: 1.8;
   font-size: .92rem;
+}
+
+.scroll-cue {
+  margin-top: 75px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  color: var(--dark);
+  font: .8rem var(--script);
 }
 
 .scroll-cue {
@@ -595,5 +622,19 @@ a {
 
   .footer h2 {
     font-size: 3rem;
+  }
+}
+
+@keyframes navbar-scroll {
+  from {
+    background: transparent;
+    border-bottom: 1px solid transparent;
+    box-shadow: none;
+  }
+
+  to {
+    background: #925778;
+    border-bottom: 1px solid rgba(255, 255, 255, .2);
+    box-shadow: 0 4px 18px rgba(51, 42, 48, .08);
   }
 }
