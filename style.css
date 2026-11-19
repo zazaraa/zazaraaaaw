@@ -35,23 +35,19 @@ a {
   position: sticky;
   top: 0;
   z-index: 1000;
-
   display: flex;
   justify-content: space-between;
   align-items: center;
-
   padding: 16px 5%;
   background: transparent;
   border-bottom: 1px solid transparent;
-
   margin-bottom: -90px;
-
-animation-name: navbar-scroll;
-animation-duration: 1s;
-animation-timing-function: linear;
-animation-fill-mode: both;
-animation-timeline: scroll(root);
-animation-range: 0px 120px;
+  animation-name: navbar-scroll;
+  animation-duration: 1s;
+  animation-timing-function: linear;
+  animation-fill-mode: both;
+  animation-timeline: scroll(root);
+  animation-range: 0px 120px;
 }
 
 .logo {
@@ -88,13 +84,11 @@ animation-range: 0px 120px;
   padding: 120px 20px 80px;
   position: relative;
   overflow: hidden;
-
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
-
   background: radial-gradient(
     ellipse at 50% 48%,
     #eabac9 0%,
@@ -197,9 +191,11 @@ animation-range: 0px 120px;
   font-size: 1.15rem;
   letter-spacing: .18em;
 }
+
 .ornament-interests {
-  background:  #f2d5d4;
+  background: #f2d5d4;
 }
+
 .section {
   padding: 76px 8.5%;
 }
@@ -290,16 +286,85 @@ animation-range: 0px 120px;
   background: var(--light);
 }
 
-.interest-grid {
+.interest-carousel {
+  width: 100%;
   max-width: 1120px;
   margin: auto;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+
+  display: flex;
+  align-items: center;
   gap: 24px;
+
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  padding: 55px calc((100% - 420px) / 2);
+
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 14%,
+    black 86%,
+    transparent 100%
+  );
+
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 14%,
+    black 86%,
+    transparent 100%
+  );
+}
+
+.interest-carousel::-webkit-scrollbar {
+  display: none;
 }
 
 .interest-card {
+  flex: 0 0 420px;
+  max-width: 420px;
+  min-width: 280px;
+
   text-align: center;
+  scroll-snap-align: center;
+
+  transform: scale(.68);
+  opacity: .38;
+
+  transition:
+    transform .5s ease,
+    opacity .5s ease;
+}
+
+.interest-card:hover {
+  transform: scale(1.03);
+  opacity: 1;
+}
+
+@keyframes carousel-focus {
+  0%, 100% {
+    transform: scale(.68);
+    opacity: .38;
+  }
+
+  50% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@supports (animation-timeline: view(inline)) {
+  .interest-card {
+    animation: carousel-focus linear both;
+    animation-timeline: view(inline);
+    animation-range: entry 0% exit 100%;
+  }
 }
 
 .interest-image {
@@ -308,6 +373,7 @@ animation-range: 0px 120px;
   border-radius: 50%;
   overflow: hidden;
   margin: 0 auto;
+
   display: flex;
   justify-content: center;
   align-items: center;
@@ -354,6 +420,14 @@ animation-range: 0px 120px;
   color: var(--muted);
   font-size: .82rem;
   line-height: 1.75;
+}
+
+.carousel-hint {
+  text-align: center;
+  color: var(--mauve);
+  font: .8rem var(--script);
+  letter-spacing: .1em;
+  margin-top: 5px;
 }
 
 .experiences-section {
@@ -435,19 +509,35 @@ animation-range: 0px 120px;
 
 .landing {
   min-height: 320px;
-  padding: 28px 22px;
+  padding: 35px 28px;
+
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+
   text-align: center;
   color: #fff8f5;
+
   box-shadow: 0 10px 25px #825c6a14;
+
+  transition: transform .35s ease, box-shadow .35s ease;
+  cursor: pointer;
+}
+
+.landing:hover {
+  transform: translateY(-12px) scale(1.03);
+  box-shadow: 0 18px 35px rgba(130, 92, 106, .2);
 }
 
 .landing span {
   font-size: 3rem;
   margin-bottom: 15px;
+  transition: transform .35s ease;
+}
+
+.landing:hover span {
+  transform: scale(1.15) rotate(-8deg);
 }
 
 .landing h3 {
@@ -537,6 +627,7 @@ animation-range: 0px 120px;
 }
 
 @media (max-width: 760px) {
+
   .site-header {
     padding: 12px 5%;
     align-items: flex-start;
@@ -570,24 +661,45 @@ animation-range: 0px 120px;
     min-height: 300px;
   }
 
-  .interest-grid,
+  .interest-carousel {
+    gap: 12px;
+    padding: 40px calc((100% - 250px) / 2);
+
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      black 10%,
+      black 90%,
+      transparent 100%
+    );
+
+    mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      black 10%,
+      black 90%,
+      transparent 100%
+    );
+  }
+
+  .interest-card {
+    flex-basis: 250px;
+    min-width: 250px;
+  }
+
+  .interest-image {
+    width: 190px;
+    height: 190px;
+  }
+
   .landing-grid {
     grid-template-columns: 1fr;
     max-width: 430px;
     gap: 35px;
   }
 
-  .interest-image {
-    min-height: 210px;
-  }
-
   .landing-grid {
     min-height: 190px;
-  }
-
-  .experiences-section {
-    grid-template-columns: 90px 1fr 25px;
-    gap: 12px;
   }
 
   .footer-bottom {
@@ -637,4 +749,42 @@ animation-range: 0px 120px;
     border-bottom: 1px solid rgba(255, 255, 255, .2);
     box-shadow: 0 4px 18px rgba(51, 42, 48, .08);
   }
+}
+
+@keyframes introFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(70px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.intro-section .section-title,
+.intro-section .photo-frame,
+.intro-section .intro-copy {
+  animation: introFadeUp linear both;
+  animation-timeline: view();
+  animation-range: entry 0% cover 35%;
+}
+
+@keyframes zoomFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.75);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.interests-section .section-title {
+  animation: zoomFadeIn linear both;
+  animation-timeline: view();
+  animation-range: entry 0% entry 45%;
 }
